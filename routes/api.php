@@ -24,15 +24,22 @@ Route::group(['middleware' => 'auth:api'], function(){
     
     //Route::resource('apimahasiswa', 'API\MahasiswaController');
 });
-
+//intinya itu klo tokenya gak sesuai dia gak akan di kasih akses untuk halaman tersebut,
+//cuma ini message errornya blm bener klo token gak sesuai scopenya
+// bntr ak cek documentasi lg, kyaknya ada yg kelewat
+//yg kita aja sih scope token,
+/// d coba2 aja antara scope dan scopes
+// klo ga salah itu scope = sifatnya OR
+// scopes == AND
 Route::get('apimahasiswa/view', 'API\MahasiswaController@index')
-    ->middleware(['auth:api', 'scopes:admin, user']);
+    ->middleware(['auth:api', 'scope:user,admin']);
 Route::get('apimahasiswa/view/{id}', 'API\MahasiswaController@show')
-    ->middleware(['auth:api', 'scopes:admin, user']);
-   // ->middleware(['auth:api', 'scopes:manage-order, read-only-order']);
+    ->middleware(['auth:api', 'scope:user,admin']);
 Route::post('apimahasiswa','API\MahasiswaController@store')
    ->middleware(['auth:api', 'scopes:admin']);
 Route::post('apimahasiswa/{id}','API\MahasiswaController@update')
+    ->middleware(['auth:api', 'scopes:admin']);
+Route::delete('apimahasiswa/{id}','API\MahasiswaController@destroy')
     ->middleware(['auth:api', 'scopes:admin']);
 
 

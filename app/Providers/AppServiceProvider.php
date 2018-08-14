@@ -25,6 +25,11 @@ class AppServiceProvider extends ServiceProvider
         //
         $this->registerPolicies();
         Passport::routes();
+
+        Passport::tokensCan([
+            'admin' => 'admin access',
+            'user' => 'user access',
+        ]);
         
 
         //Passport::tokensExpireIn(now()->addDays(15));
