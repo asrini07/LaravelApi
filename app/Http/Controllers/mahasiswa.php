@@ -17,22 +17,9 @@ class mahasiswa extends Controller
 
     public function index()
     {
-        //LARAVEL API
-        $data=Mmahasiswa::all();
-
-        if(count($data) > 0){
-            $res["message"]="Sukses!";
-            $res["values"] = $data;
-            return response($res);
-        } else{
-            $res["message"]="Empty Data";
-            return response($res);
-        }
-
-
         // LARAVEL CRUD
-        //$data=Mmahasiswa::all();
-        //return view('mahasiswa',compact('data'));
+        $data=Mmahasiswa::all();
+        return view('mahasiswa',compact('data'));
     }
 
     /**
@@ -54,36 +41,16 @@ class mahasiswa extends Controller
      */
     public function store(Request $request)
     {
-        //LARAVEL API
-        $data= new Mmahasiswa();
-        $data->nim=$request->input('nim');
-        $data->nama=$request->input('nama');
-        $data->jk=$request->input('jk');
-        $data->alamat=$request->input('alamat');
-        $data->email=$request->input('email');
-        $data->nohp=$request->input('nohp');
-
-        if($data->save()){
-            $res["message"]="Sukses";
-            $res["value"]=$data;
-            return response($res);
-
-        } else{
-            $res["message"]="Gagal";
-            return response($res);
-        }
-
-
         //laravel CRUD
-        //$data = new Mmahasiswa();
-        //$data->nim=$request->nim;
-        //$data->nama=$request->nama;
-        //$data->alamat=$request->alamat;
-        //$data->jk=$request->jk;
-        //$data->email=$request->email;
-        //$data->nohp=$request->nohp;
-        //$data->save();
-        //return redirect()->route('mahasiswa.index')->with('alert-success','Berhasil Menambahkan Data');
+        $data = new Mmahasiswa();
+        $data->nim=$request->nim;
+        $data->nama=$request->nama;
+        $data->alamat=$request->alamat;
+        $data->jk=$request->jk;
+        $data->email=$request->email;
+        $data->nohp=$request->nohp;
+        $data->save();
+        return redirect()->route('mahasiswa.index')->with('alert-success','Berhasil Menambahkan Data');
 
     }
 
@@ -95,16 +62,7 @@ class mahasiswa extends Controller
      */
     public function show($id)
     {
-        //LARAVEL API
-        $data=Mmahasiswa::where('nim',$id)->get();
-        if(count($data) > 0) {
-            $res["message"]="Sukses";
-            $res["values"]=$data;
-            return response($res);
-        } else{
-            $res["message"]="Failed Data";
-            return response($res);
-        }
+        
     }
 
     /**
@@ -129,34 +87,16 @@ class mahasiswa extends Controller
      */
     public function update(Request $request, $id)
     {
-        //LARAVEL API
-        $data=Mmahasiswa::where('nim',$id)->first();
-        $data->nim=$request->input('nim');
-        $data->nama=$request->input('nama');
-        $data->alamat=$request->input('alamat');
-        $data->jk=$request->input('jk');
-        $data->email=$request->input('email');
-        $data->nohp=$request->input('nohp');
-        if($data->save()){
-            $res["message"]="Sukses";
-            $res["value"]=$data;
-            return response($res);
-        } else{
-            $res["message"]="Gagal";
-            return response($res);
-        }
-        
-        
         //LARAVEL CRUD
-        //$data=Mmahasiswa::where('nim',$id)->first();
-        //$data->nim=$request->nim;
-        //$data->nama=$request->nama;
-        //$data->alamat=$request->alamat;
-        //$data->jk=$request->jk;
-        //$data->email=$request->email;
-        //$data->nohp=$request->nohp;
-        //$data->save();
-        //return redirect()->route('mahasiswa.index')->with('alert-success','Data berhasil diubah');
+        $data=Mmahasiswa::where('nim',$id)->first();
+        $data->nim=$request->nim;
+        $data->nama=$request->nama;
+        $data->alamat=$request->alamat;
+        $data->jk=$request->jk;
+        $data->email=$request->email;
+        $data->nohp=$request->nohp;
+        $data->save();
+        return redirect()->route('mahasiswa.index')->with('alert-success','Data berhasil diubah');
 
     }
 
@@ -168,20 +108,9 @@ class mahasiswa extends Controller
      */
     public function destroy($id)
     {
-        //LARAVEL API
-        $data=Mmahasiswa::where('nim',$id)->first();
-        if($data->delete()){
-            $res["message"]="sukses";
-            $res["value"]=$data;
-            return response($res);
-        } else{
-            $res["message"]="gagal";
-            return response($res);
-        }
-
         //LARAVEL CRUD
-        //$data=Mmahasiswa::where('nim',$id)->first();
-        //$data->delete();
-        //return redirect()->route('mahasiswa.index')->with('alert-success','Data berhasil dihapus');
+        $data=Mmahasiswa::where('nim',$id)->first();
+        $data->delete();
+        return redirect()->route('mahasiswa.index')->with('alert-success','Data berhasil dihapus');
     }
 }

@@ -11,17 +11,52 @@
 |
 */
 //LARAVEL API
-Route::get('/mahasiswa','mahasiswa@index');
-Route::get('/mahasiswa/{id}',"mahasiswa@show");
-Route::post('/mahasiswa/store',"mahasiswa@store");
-Route::post('/mahasiswa/update/{id}','mahasiswa@update');
-Route::post('/mahasiswa/delete/{id}','mahasiswa@destroy');
+Route::get('/mahasiswaapi','Controllerapi@index');
+Route::get('/mahasiswaapi/{id}',"Controllerapi@show");
+Route::post('/mahasiswaapi/store',"Controllerapi@store");
+Route::post('/mahasiswaapi/update/{id}','Controllerapi@update');
+Route::post('/mahasiswaapi/delete/{id}','Controllerapi@destroy');
 
 //LARAVEL CRUD
-//Route::resource('mahasiswa','mahasiswa');
+Route::resource('mahasiswa','mahasiswa');
 //Route::get('/', function(){
   //  return view('content');
 //});
+// Route untuk user yang baru register
+Route::group(['prefix'=>'home', 'middleware'=>['auth']], function(){
+  Route::get('/', function(){
+    $data['role']=\App\UserRole::whereUserId(Auth::id())->get();
+    return view('home',$data);
+  });
+  Route::post('upgrade', function(Request $request){
+    if($request->ajax()){
+      $msg['success']='false';
+      $user= \App\User::find($request->id);
+      if($user)
+        $user->putRole($request->level);
+        $msg['success']='true';
+      return response()
+        ->json($msg);
+    }
+  });
+});
+
+// Route untuk user yang admin
+Route::group(['prefix'=>'admin', 'middleware'=>['auth','role:admin']], function(){
+  Route::get('/', function(){
+    $data['users']=\App\User::whereDoesntHave('roles')->get();
+    return view('admin', $data);
+  });
+});
+
+// Route untuk user yang member
+Route::group(['prefix' => 'user', 'middleware' => ['auth','role:user']], function(){
+	Route::get('/', function(){
+		return view('user');
+	});
+});
+
+
 
 
 
@@ -36,3 +71,8 @@ Route::post('/mahasiswa/delete/{id}','mahasiswa@destroy');
 // Route::get('/', function () {
 //     return view('welcome');
 // });
+
+Auth::routes();
+
+//Route::get('/home', 'HomeController@index')->name('home');
+Route::resource('mahasiswa','mahasiswa');
