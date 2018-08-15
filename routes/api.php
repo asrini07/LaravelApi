@@ -26,7 +26,7 @@ Route::group(['middleware' => 'auth:api'], function(){
 });
 
 Route::get('apimahasiswa/view', 'API\MahasiswaController@index')
-    ->middleware(['auth:api', 'scopes:admin, user']);
+    ->middleware(['auth:api', 'role:admin,user' ]);
 Route::get('apimahasiswa/view/{id}', 'API\MahasiswaController@show')
     ->middleware(['auth:api', 'scopes:admin, user']);
    // ->middleware(['auth:api', 'scopes:manage-order, read-only-order']);

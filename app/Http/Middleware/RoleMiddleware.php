@@ -13,17 +13,16 @@ class RoleMiddleware
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle($request, Closure $next, ...$roleName)
     {
-        //return $next($request);
-
-        if(! $request->user()->hasRole($roleName))
+        # jika ngga punya access
+        if(! $request->user()->hasRole($roleName) )
         {
-            return redirect()
-                ->to('home');
+            return response()->json([
+                "status" => "false",
+                "message" => "sorry you cannot access this endpoint"
+            ]);
         }
-        return $next($request);
-
-        
+        return $next($request);        
     }
 }
