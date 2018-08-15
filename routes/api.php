@@ -32,7 +32,7 @@ Route::group(['middleware' => 'auth:api'], function(){
 // klo ga salah itu scope = sifatnya OR
 // scopes == AND
 Route::get('apimahasiswa/view', 'API\MahasiswaController@index')
-    ->middleware(['auth:api', 'scope:user,admin']);
+    ->middleware(['auth:api', 'role:admin,user' ]);
 Route::get('apimahasiswa/view/{id}', 'API\MahasiswaController@show')
     ->middleware(['auth:api', 'scope:user,admin']);
 Route::post('apimahasiswa','API\MahasiswaController@store')
