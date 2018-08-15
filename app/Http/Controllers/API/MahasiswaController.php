@@ -13,19 +13,30 @@ class MahasiswaController extends Controller
 {
     //
     public $successStatus = 200;
-
-    public function index()
+//di controller mahasiswa ga ngubah apa2 mas cuma yang du controller usercontroller
+//api dan appServiceProvider
+//controlernya ini kan? iya kalau buat view CRUD data mahasiswa
+//kalau buat login register nya di user controller mas, ia mahasiswa dlo aja
+//ak pengin cek pasang middleware scopenya udh jalan blm. itu kok index gak masuk dd nya
+//auto save gak ini mbak editorynya? ga mas    
+//bukain databasenya dong mba
+//insomia bwt login mana mba?
+public function index()
     {
+   // dd('OK');
         $user=Auth::user();
         $data=Mmahasiswa::all();
         $mahasiswa = $user->mmahasiswas;
         return response()->json([
             'success' => true,
+            'status' =>200,
+            'user'  => Auth::user(),
             'data' => $data
         ]);
     }
     public function show($id){
         $data=Mmahasiswa::where('nim',$id)->get();
+        //dd($data);
         if(!$data){
             return response()->json([
                 'success' => false,

@@ -26,8 +26,8 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
         Passport::tokensCan([
-            'admin' => 'Manage order scope',
-            'user' => 'Read only order scope'
+            'admin' => 'admin access',
+            'user' => 'user access',
         ]);
         //
     }
